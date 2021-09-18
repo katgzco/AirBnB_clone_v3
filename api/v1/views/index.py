@@ -23,8 +23,8 @@ def status():
 @app_views.route('/stats', strict_slashes=False)
 def stats():
     """ Return in JSON data"""
-    classes = {"Amenity": Amenity, "City": City,
-               "Place": Place, "Review": Review, "State": State, "User": User}
+    classes = {"amenities": Amenity, "cities": City,
+               "places": Place, "reviews": Review, "states": State, "users": User}
 
     count_class = dict()
 
