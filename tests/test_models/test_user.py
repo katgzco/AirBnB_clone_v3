@@ -3,14 +3,15 @@
 Contains the TestUserDocs classes
 """
 
+
 from datetime import datetime
 import inspect
 import models
-from models import user
+from models.user import User
 from models.base_model import BaseModel
 import pep8
 import unittest
-User = user.User
+user = User
 
 
 class TestUserDocs(unittest.TestCase):
@@ -59,6 +60,7 @@ class TestUserDocs(unittest.TestCase):
 
 class TestUser(unittest.TestCase):
     """Test the User class"""
+
     def test_is_subclass(self):
         """Test that User is a subclass of BaseModel"""
         user = User()
