@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """  """
-from flask import Flask, jsonify
+from flask import Flask, jsonify, make_response
 from models import storage
 from api.v1.views import app_views
 from os import getenv
@@ -20,18 +20,18 @@ else:
 app.register_blueprint(app_views)
 
 
-@app.teardown_appcontext
-def store_close(exception):
-    """Clossing session"""
-    storage.close()
-
-
 @app.errorhandler(404)
 def page_not_found(e):
     """handler for 404 errors that returns a
     JSON-formatted 404 status code response"""
     error = {"error": "Not found"}
-    return jsonify(error), 404
+    return make_response(jsonify(error), 404)
+
+
+@app.teardown_appcontext
+def store_close(exception):
+    """Clossing session"""
+    storage.close()
 
 
 if __name__ == '__main__':
