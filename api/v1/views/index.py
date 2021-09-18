@@ -24,7 +24,8 @@ def status():
 def stats():
     """ Return in JSON data"""
     classes = {"amenities": Amenity, "cities": City,
-               "places": Place, "reviews": Review, "states": State, "users": User}
+               "places": Place, "reviews":
+               Review, "states": State, "users": User}
 
     count_class = dict()
 
