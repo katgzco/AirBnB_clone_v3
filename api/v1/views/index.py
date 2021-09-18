@@ -5,8 +5,9 @@ from api.v1.views import app_views
 
 status = Flask(__name__)
 
+
 @app_views.route('/status', strict_slashes=False)
 def status():
     """ Return in JSON data"""
-    data = {'status' : 'OK'}
+    data = {'status': 'OK'}
     return jsonify(data)

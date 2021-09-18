@@ -19,10 +19,12 @@ else:
 
 app.register_blueprint(app_views)
 
+
 @app.teardown_appcontext
 def store_close(exception):
     """Clossing session"""
     storage.close()
+
 
 if __name__ == '__main__':
     app.run(host=HBNB_API_HOST, port=HBNB_API_PORT, threaded=True)
