@@ -5,7 +5,7 @@ Contains the TestDBStorageDocs and TestDBStorage classes
 
 from datetime import datetime
 import inspect
-import models
+from models import storage
 from models.engine import db_storage
 from models.amenity import Amenity
 from models.base_model import BaseModel
@@ -18,6 +18,7 @@ import json
 import os
 import pep8
 import unittest
+from os import getenv
 DBStorage = db_storage.DBStorage
 classes = {"Amenity": Amenity, "City": City, "Place": Place,
            "Review": Review, "State": State, "User": User}
@@ -68,21 +69,31 @@ test_db_storage.py'])
                             "{:s} method needs a docstring".format(func[0]))
 
 
-class TestFileStorage(unittest.TestCase):
-    """Test the FileStorage class"""
-    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
-    def test_all_returns_dict(self):
-        """Test that all returns a dictionaty"""
-        self.assertIs(type(models.storage.all()), dict)
+class TestDBStorage(unittest.TestCase):
+    """Test the DBstorage class"""
 
-    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
-    def test_all_no_class(self):
-        """Test that all returns all rows when no class is passed"""
+    @classmethod
+    def setUpClass(cls):
+        """Set up for the doc tests"""
+        cls.dbs_f = inspect.getmembers(DBStorage, inspect.isfunction)
 
-    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
-    def test_new(self):
-        """test that new adds an object to the database"""
+    @unittest.skipIf(getenv("HBNB_TYPE_STORAGE") != 'db', "not testing db storage")
+    def test_get(self):
+        """Test that return a object or None"""
+        State_instance = State(name="San Luis")
+        storage.new(State_instance)
+        storage.save()
+        self.assertIs(State_instance, storage.get(
+            "State", State_instance.id))
+        self.assertIs(None, storage.get("Nothing", "Nothing"))
+        self.assertIs(None, storage.get("State", "Nothing"))
 
-    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
-    def test_save(self):
-        """Test that save properly saves objects to file.json"""
+    @unittest.skipIf(getenv("HBNB_TYPE_STORAGE") != 'db', "not testing db storage")
+    def test_count(self):
+        """Test that return the number of objects"""
+        count = storage.count()
+        State_instance = State(name="San Luis")
+        storage.new(State_instance)
+        storage.save()
+        self.assertEqual(storage.count(), count + 1)
+        self.assertEqual(storage.count("State"), count + 1)
