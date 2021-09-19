@@ -23,7 +23,7 @@ def states_id(state_id):
     """ Return one element of State matched with id"""
     object = storage.get(State, state_id)
     if object is None:
-        return abort(404)
+        abort(404)
     return jsonify(object.to_dict())
 
 
