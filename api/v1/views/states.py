@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """ Create a new view for State objects that handles all default RESTFul API actions"""
 
-from os import name, stat
 from models import storage
 from flask import Flask, jsonify, request, make_response, abort
 from api.v1.views import app_views
@@ -22,9 +21,8 @@ def states_id(state_id):
     """ Return one element of State matched with id"""
     object = storage.get(State, state_id)
     if object is None:
-        return page_not_found(404)
-    else:
-        return jsonify(object.to_dict())
+        return abort(404)
+    return jsonify(object.to_dict())
 
 @app_views.route('/states/<state_id>', methods=['DELETE'], strict_slashes=False)
 def states_id_delete(state_id):
