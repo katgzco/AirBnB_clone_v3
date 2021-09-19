@@ -28,7 +28,7 @@ def states_id(state_id):
 
 
 @app_views.route('/states/<state_id>',
-                methods=['DELETE'], strict_slashes=False)
+                 methods=['DELETE'], strict_slashes=False)
 def states_id_delete(state_id):
     """ Return one element of State matched with id"""
     object = storage.get(State, state_id)
@@ -48,15 +48,16 @@ def create_state():
     else:
         variable = request.get_json(request.data)
         if 'name' in variable.keys():
-            instance = State(name = variable['name'])
+            instance = State(name=variable['name'])
             storage.new(instance)
             storage.save()
         else:
-            abort(400, 'Missing name')        
+            abort(400, 'Missing name')
     return make_response(jsonify(instance.to_dict()), 201)
 
 
-@app_views.route('states/<string:state_id>', methods=['PUT'], strict_slashes=False)
+@app_views.route('states/<string:state_id>',
+                 methods=['PUT'], strict_slashes=False)
 def update_state(state_id):
     """  one element of State matched with id"""
     object = storage.get(State, state_id)
@@ -71,5 +72,5 @@ def update_state(state_id):
                 object.name = variable['name']
                 storage.save()
             else:
-                abort(400, 'Missing name')         
+                abort(400, 'Missing name')
     return jsonify(object.to_dict()), 200
