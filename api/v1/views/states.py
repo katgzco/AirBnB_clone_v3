@@ -30,7 +30,7 @@ def states_id(state_id):
 @app_views.route('/states/<state_id>',
                  methods=['DELETE'], strict_slashes=False)
 def states_id_delete(state_id):
-    """ Return one element of State matched with id"""
+    """ Delete one element of State matched with id"""
     object = storage.get(State, state_id)
     if object is None:
         abort(404)
