@@ -5,7 +5,7 @@ RESTFul API actions"""
 from api.v1.views import app_views
 from models import storage
 from models.user import User
-from flask import jsonify, request, make_response, abort
+from flask import jsonify, request, abort
 
 
 @app_views.route('/users', methods=['GET'], strict_slashes=False)
@@ -42,7 +42,7 @@ def users_id_delete(user_id):
 
 
 @app_views.route('/users', methods=['POST'], strict_slashes=False)
-def create_useres():
+def create_users():
     """ Create a new User"""
     if not request.get_json():
         abort(400, 'Not a JSON')
@@ -52,10 +52,10 @@ def create_useres():
             abort(400, 'Missing email')
         if 'password' not in variable.keys():
             abort(400, 'Missing password')
-        instance = User(email=variable['email'], password=variable['password'])
+        instance = User(**variable)
         storage.new(instance)
         storage.save()
-    return make_response(jsonify(instance.to_dict()), 201)
+    return (jsonify(instance.to_dict()), 201)
 
 
 @app_views.route('/users/<string:user_id>',
@@ -72,6 +72,6 @@ def update_users(user_id):
             variable = request.get_json(request.data)
             for key, value in variable.items():
                 if key not in ['email', 'id', 'created_at', 'updated_at']:
-                    object[key] = value
+                    setattr(object, key, value)
             storage.save()
     return jsonify(object.to_dict()), 200
