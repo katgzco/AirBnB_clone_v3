@@ -71,6 +71,7 @@ def update_users(user_id):
         else:
             variable = request.get_json(request.data)
             for key, value in variable.items():
-                object[key] = value
+                if key is not 'email':
+                    object[key] = value
             storage.save()
     return jsonify(object.to_dict()), 200
