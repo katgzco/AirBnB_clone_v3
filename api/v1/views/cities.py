@@ -18,8 +18,8 @@ def all_cities(state_id):
     for cities in all_objects.values():
         if state_id == cities.state_id:
             cities_list.append(cities.to_dict())
-        if cities_list is None:
-            abort(404)
+    if len(cities_list) == 0:
+        abort(404)
     return jsonify(cities_list)
 
 
