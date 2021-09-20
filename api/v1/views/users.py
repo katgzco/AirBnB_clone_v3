@@ -51,7 +51,7 @@ def create_useres():
         if 'email' not in variable.keys():
             abort(400, 'Missing email')
         if 'password' not in variable.keys():
-            abort(400, 'password')
+            abort(400, 'Missing password')
         instance = User(**variable)  # Possible bug
         storage.new(instance)
         storage.save()
