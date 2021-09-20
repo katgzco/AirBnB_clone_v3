@@ -52,7 +52,7 @@ def create_useres():
             abort(400, 'Missing email')
         if 'password' not in variable.keys():
             abort(400, 'Missing password')
-        instance = User(**variable)  # Possible bug
+        instance = User(email=variable['email'], password=variable['password'])
         storage.new(instance)
         storage.save()
     return make_response(jsonify(instance.to_dict()), 201)
@@ -71,7 +71,7 @@ def update_users(user_id):
         else:
             variable = request.get_json(request.data)
             for key, value in variable.items():
-                if key is not 'email':
+                if key not in ['email', 'id', 'created_at', 'updated_at']:
                     object[key] = value
             storage.save()
     return jsonify(object.to_dict()), 200
