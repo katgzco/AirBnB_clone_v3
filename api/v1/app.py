@@ -8,7 +8,6 @@ from flask_cors import CORS
 
 
 app = Flask(__name__)
-cors = CORS(app, resources={r"/api/*": {"originis": "0.0.0.0"}})
 
 
 if getenv("HBNB_API_HOST") is None:
@@ -21,9 +20,10 @@ if getenv("HBNB_API_PORT") is None:
 else:
     HBNB_API_PORT = getenv("HBNB_API_PORT")
 
-# CORS(app)
+
 
 app.register_blueprint(app_views)
+cors = CORS(app, resources={r"/api/v1/*": {"originis": "0.0.0.0"}})
 
 
 @app.errorhandler(404)
