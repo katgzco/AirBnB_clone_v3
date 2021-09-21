@@ -4,8 +4,11 @@ from flask import Flask, jsonify, make_response
 from models import storage
 from api.v1.views import app_views
 from os import getenv
+from flask_cors import CORS
+
 
 app = Flask(__name__)
+
 
 if getenv("HBNB_API_HOST") is None:
     HBNB_API_HOST = '0.0.0.0'
@@ -16,6 +19,9 @@ if getenv("HBNB_API_PORT") is None:
     HBNB_API_PORT = '5000'
 else:
     HBNB_API_PORT = getenv("HBNB_API_PORT")
+
+# CORS(app)
+CORS(app, resources={r"/api/v1/*": {"originis": HBNB_API_HOST}})
 
 app.register_blueprint(app_views)
 
@@ -35,4 +41,4 @@ def store_close(exception):
 
 
 if __name__ == '__main__':
-    app.run(host=HBNB_API_HOST, port=HBNB_API_PORT, threaded=True)
+    app.run(host=HBNB_API_HOST, port=HBNB_API_PORT, threaded=True, debug=True)
