@@ -21,7 +21,6 @@ else:
     HBNB_API_PORT = getenv("HBNB_API_PORT")
 
 
-
 app.register_blueprint(app_views)
 cors = CORS(app, resources={r"/api/v1/*": {"originis": "0.0.0.0"}})
 
