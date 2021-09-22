@@ -79,14 +79,11 @@ class DBStorage:
         object = dict()
 
         if cls and id:
-            objects = self.all()
+            objects = self.all(cls)
             for object in objects.values():
                 if object.id == id:
                     return object
 
     def count(self, cls=None):
         """return the number of objects"""
-        if cls:
-            return len(self.all(cls))
-
-        return len(self.all())
+        return len(self.all(cls))
